@@ -7,7 +7,7 @@ import searchReducer from "./slices/searchSlice";
 export const store = configureStore({
   reducer: {
     couterState: counterReducer,
-    productsPagelice: productPageReducer,
+    productsPageSlice: productPageReducer,
     productsListSlice: productListReducer,
     searchSlice: searchReducer,
   },

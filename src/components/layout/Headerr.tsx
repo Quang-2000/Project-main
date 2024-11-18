@@ -1,11 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import {
-  PhoneOutlined,
-  SearchOutlined,
-  ShoppingCartOutlined,
-} from "@mui/icons-material";
-import { Button, Space, Tooltip } from "antd";
+import { PhoneOutlined, ShoppingCartOutlined } from "@mui/icons-material";
+import { Button, Space } from "antd";
 
 const Headerr = () => {
   return (
@@ -30,27 +25,7 @@ const Headerr = () => {
           alt="Logo"
         />
         <div className="name-shop">Catto Shop</div>
-        <div className="form">
-          <form
-            className="d-flex justify-content-center align-items-center"
-            role="search"
-          >
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Tìm kiếm sản phẩm"
-              aria-label="Search"
-            />
-            <Tooltip title="Tìm kiếm">
-              <Button
-                type="primary"
-                shape="circle"
-                icon={<SearchOutlined />}
-                htmlType="submit"
-              />
-            </Tooltip>
-          </form>
-        </div>
+        {/* <SearchBar /> */}
         <div className="cart-logo">
           <Button className="button-cart" type="default">
             <Space>

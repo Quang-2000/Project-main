@@ -9,7 +9,7 @@ export const fetchProductsPage = createAsyncThunk(
   async (_, thunkApi) => {
     const { rejectWithValue } = thunkApi;
     try {
-      const response: any = await axiosClient.get("products");
+      const response: any = await axiosClient.get("page");
       return response.data;
     } catch (error) {
       return rejectWithValue(error);

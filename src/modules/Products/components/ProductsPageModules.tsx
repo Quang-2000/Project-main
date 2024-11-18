@@ -6,19 +6,23 @@ import { fetchProductsPage } from "../../../stores/slices/productsPageSlice";
 const ProductsPageModules = () => {
   const dispatch: any = useDispatch();
   const { products } = useSelector(
-    (state: RootState) => state.productsPagelice
+    (state: RootState) => state.productsPageSlice
   );
+
   useEffect(() => {
     dispatch(fetchProductsPage());
-  }, []);
+  }, [dispatch]);
+
   return (
     <div className="products-page">
-      {products?.map((products: any) => (
-        <div key={products.id} className="products-item">
-          <img src={products.image} alt={products.name} />
-          <h2>{products.name}</h2>
-        </div>
-      ))}
+      <div className="product-grid">
+        {products?.map((product: any) => (
+          <div key={product.id} className="product-item">
+            <img src={product.image} alt={product.name} />
+            <h2>{product.name}</h2>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

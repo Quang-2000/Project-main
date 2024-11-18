@@ -1,40 +1,53 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { axiosClient } from "../../api/axiosClient";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Product } from "../../types";
+import { fetchProductsByName } from "../../api/Product/product.api";
 
-const initialState = {
+interface ProductsState {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+}
+
+const initialState: ProductsState = {
   products: [],
+  loading: false,
+  error: null,
 };
 
-export const fetchSearch = createAsyncThunk(
-  "productSearch/fetchProductsSearch",
-  async (inputValue: string, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+export const fetchProducts = createAsyncThunk(
+  "products/fetchByName",
+  async (name: string, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
     try {
-      const response: any = await axiosClient.get(`${inputValue}`);
-      return response.data;
+      const data = await fetchProductsByName(name);
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }
   }
 );
 
-const productsSearch = createSlice({
-  name: "productsSearch",
-  initialState: initialState,
+export const searchSlice = createSlice({
+  name: "products",
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchSearch.pending, (state, action) => {
-        console.log(action);
-      })
-      .addCase(fetchSearch.fulfilled, (state, action) => {
+    builder.addCase(fetchProducts.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(
+      fetchProducts.fulfilled,
+      (state, action: PayloadAction<Product[]>) => {
+        state.loading = false;
         state.products = action.payload;
-      })
-      .addCase(fetchSearch.rejected, (state, action) => {
-        console.log(action.error);
-      });
+      }
+    );
+    builder.addCase(fetchProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.error = (action.payload as string) || "Có lỗi xảy ra";
+    });
   },
 });
 
-export default productsSearch.reducer;
-export const {} = productsSearch.actions;
+export default searchSlice.reducer;
